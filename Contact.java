@@ -16,5 +16,8 @@ public class Contact {
         this.state = state;
         this.zip = zip;
     }
-    
+
+    public String getContact() {
+        return FirstName + " " + LastName + " " + city + " " + state + " " + email + " " + phone + " " + zip;
+    }
 }
