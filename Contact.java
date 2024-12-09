@@ -17,7 +17,8 @@ public class Contact {
         this.zip = zip;
     }
 
-    public String getContact() {
+    @Override
+    public String toString() {
         return FirstName + " " + LastName + " " + city + " " + state + " " + email + " " + phone + " " + zip;
     }
 }

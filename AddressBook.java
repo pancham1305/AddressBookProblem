@@ -12,7 +12,7 @@ public class AddressBook {
 
     public void ShowContacts() {
         for (Contact c : AdBook) {
-            System.out.println(c.getContact() + "\n");
+            System.out.println(c);
         }
     }
 
