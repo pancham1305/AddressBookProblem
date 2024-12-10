@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AddressBook {
-    List<Contact> AdBook = new ArrayList<>();
+    private ArrayList<Contact> AdBook = new ArrayList<>();
 
     public void AddContact(Contact c) {
         AdBook.add(c);
@@ -11,12 +11,14 @@ public class AddressBook {
     }
 
     public void ShowContacts() {
+        int ind = 0;
         for (Contact c : AdBook) {
-            System.out.println(c);
+            System.out.println(ind + ": " + c);
+            ind++;
         }
     }
 
-    public void createContact(AddressBook A, Scanner ts) {
+    public Contact createContact(Scanner ts) {
         System.out.println("Enter FirstName:");
         String FirstName = ts.next();
         System.out.println("Enter LastName:");
@@ -32,6 +34,25 @@ public class AddressBook {
         System.out.println("Enter zip:");
         int zip = ts.nextInt();
         Contact c1 = new Contact(FirstName, LastName, city, state, email, phone, zip);
-        A.AddContact(c1);
+        return c1;
+    }
+
+    public int search(String name) {
+        for (int i = 0; i < AdBook.size(); i++) {
+            if (AdBook.get(i).FirstName == name) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void editContact(int ind, Scanner sc) {
+        System.out.println("Old Contact: ");
+        System.out.println(this.AdBook.get(ind));
+        System.out.println("Enter new Contact: ");
+        Contact c = createContact(sc);
+        AdBook.set(ind, c);
+        System.out.println("Done!");
+        return;
     }
 }
