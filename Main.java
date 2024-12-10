@@ -10,7 +10,7 @@ public class Main {
         while (i != 0) {
             System.out.println("-> Enter 0 to Exit");
             System.out.println(
-                    "-> Enter 1 to Create a contact!\n-> Enter 2 to Display all Contacts\n-> Enter 3 to Edit a contact(Please Provide Index of the contact) ");
+                    "-> Enter 1 to Create a contact!\n-> Enter 2 to Display all Contacts\n-> Enter 3 to Edit a contact\n-> Enter 4 to Delete to Contact");
             int input = sc.nextInt();
             switch (input) {
                 case 1 -> {
@@ -22,7 +22,8 @@ public class Main {
                 }
                 case 2 -> A.ShowContacts();
                 case 3 -> {
-                    String name = sc.nextLine();
+                    System.out.println("Enter the name you want to edit:");
+                    String name = sc.next();
 
                     int ind = A.search(name);
                     if (ind == -1) {
@@ -30,6 +31,11 @@ public class Main {
                         continue;
                     }
                     A.editContact(ind, sc);
+                }
+                case 4 -> {
+                    System.out.println("Enter the name you want to delete:");
+                    String name = sc.next();
+                    A.deleteContact(name);
                 }
                 default -> {
                     System.out.println("Wrong Input");

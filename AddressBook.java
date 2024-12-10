@@ -39,11 +39,25 @@ public class AddressBook {
 
     public int search(String name) {
         for (int i = 0; i < AdBook.size(); i++) {
-            if (AdBook.get(i).FirstName == name) {
+            String s = AdBook.get(i).FirstName;
+            System.out.println(s + " " + name);
+            if (s.equals(name)) {
                 return i;
             }
         }
         return -1;
+    }
+
+    public int deleteContact(String name) {
+        int ind = search(name);
+        if (ind == -1) {
+            System.out.println("There is no such name!");
+            return 0;
+        }
+        AdBook.remove(ind);
+        System.out.println("New List:");
+        ShowContacts();
+        return 1;
     }
 
     public void editContact(int ind, Scanner sc) {
