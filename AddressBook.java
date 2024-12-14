@@ -1,8 +1,6 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-public class AddressBook {
+class AddressBook {
     private ArrayList<Contact> AdBook = new ArrayList<>();
 
     public void AddContact(Contact c) {
@@ -11,6 +9,11 @@ public class AddressBook {
     }
 
     public void ShowContacts() {
+        if (AdBook.isEmpty()) {
+            System.out.println("No contacts in this Address Book!");
+            return;
+        }
+
         int ind = 0;
         for (Contact c : AdBook) {
             System.out.println(ind + ": " + c);
@@ -33,14 +36,13 @@ public class AddressBook {
         int phone = ts.nextInt();
         System.out.println("Enter zip:");
         int zip = ts.nextInt();
-        Contact c1 = new Contact(FirstName, LastName, city, state, email, phone, zip);
-        return c1;
+
+        return new Contact(FirstName, LastName, city, state, email, phone, zip);
     }
 
     public int search(String name) {
         for (int i = 0; i < AdBook.size(); i++) {
             String s = AdBook.get(i).FirstName;
-            System.out.println(s + " " + name);
             if (s.equals(name)) {
                 return i;
             }
@@ -55,7 +57,7 @@ public class AddressBook {
             return 0;
         }
         AdBook.remove(ind);
-        System.out.println("New List:");
+        System.out.println("Contact deleted. Updated list:");
         ShowContacts();
         return 1;
     }
@@ -66,7 +68,6 @@ public class AddressBook {
         System.out.println("Enter new Contact: ");
         Contact c = createContact(sc);
         AdBook.set(ind, c);
-        System.out.println("Done!");
-        return;
+        System.out.println("Contact updated!");
     }
 }
