@@ -4,6 +4,11 @@ class AddressBook {
     private ArrayList<Contact> AdBook = new ArrayList<>();
 
     public void AddContact(Contact c) {
+        boolean exists = AdBook.stream().anyMatch(contact -> contact.equals(c));
+        if (exists) {
+            System.out.println("Duplicate contact! Contact not added.");
+            return;
+        }
         AdBook.add(c);
         System.out.println("Contact added");
     }
@@ -13,7 +18,6 @@ class AddressBook {
             System.out.println("No contacts in this Address Book!");
             return;
         }
-
         int ind = 0;
         for (Contact c : AdBook) {
             System.out.println(ind + ": " + c);
@@ -42,8 +46,7 @@ class AddressBook {
 
     public int search(String name) {
         for (int i = 0; i < AdBook.size(); i++) {
-            String s = AdBook.get(i).FirstName;
-            if (s.equals(name)) {
+            if (AdBook.get(i).FirstName.equals(name)) {
                 return i;
             }
         }
@@ -67,6 +70,11 @@ class AddressBook {
         System.out.println(this.AdBook.get(ind));
         System.out.println("Enter new Contact: ");
         Contact c = createContact(sc);
+        boolean exists = AdBook.stream().anyMatch(contact -> contact.equals(c));
+        if (exists) {
+            System.out.println("Duplicate contact! Edit cancelled.");
+            return;
+        }
         AdBook.set(ind, c);
         System.out.println("Contact updated!");
     }
