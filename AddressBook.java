@@ -1,8 +1,14 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 class AddressBook {
     private ArrayList<Contact> AdBook = new ArrayList<>();
+    private static final String FILE_NAME = "AddressBook.txt";
 
     // Add a contact to the Address Book
     public void AddContact(Contact c) {
@@ -25,6 +31,50 @@ class AddressBook {
         System.out.println("Contacts in Address Book:");
         for (int i = 0; i < AdBook.size(); i++) {
             System.out.println(i + ": " + AdBook.get(i));
+        }
+    }
+
+    // Save contacts to a file
+    public void saveToFile() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
+            for (Contact contact : AdBook) {
+                writer.write(contact.toString());
+                writer.newLine();
+            }
+            System.out.println("Contacts saved to file: " + FILE_NAME);
+        } catch (IOException e) {
+            System.out.println("Error saving contacts to file: " + e.getMessage());
+        }
+    }
+
+    // Load contacts from a file
+    public void loadFromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+            AdBook.clear();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split(", ");
+                Map<String, String> fieldMap = Arrays.stream(fields)
+                        .map(field -> field.split(": "))
+                        .collect(Collectors.toMap(
+                                split -> split[0].trim(),
+                                split -> split[1].trim()
+                        ));
+
+                Contact contact = new Contact(
+                        fieldMap.get("Name").split(" ")[0],
+                        fieldMap.get("Name").split(" ")[1],
+                        fieldMap.get("City"),
+                        fieldMap.get("State"),
+                        fieldMap.get("Email"),
+                        Integer.parseInt(fieldMap.get("Phone")),
+                        Integer.parseInt(fieldMap.get("Zip"))
+                );
+                AdBook.add(contact);
+            }
+            System.out.println("Contacts loaded from file: " + FILE_NAME);
+        } catch (IOException e) {
+            System.out.println("Error loading contacts from file: " + e.getMessage());
         }
     }
 

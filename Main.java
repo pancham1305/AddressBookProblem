@@ -59,6 +59,8 @@ public class Main {
             System.out.println("-> Enter 2 to Display all Contacts");
             System.out.println("-> Enter 3 to Edit a contact");
             System.out.println("-> Enter 4 to Delete a Contact");
+            System.out.println("-> Enter 5 to Save Contacts to File");
+            System.out.println("-> Enter 6 to Load Contacts from File");
 
             int input = sc.nextInt();
 
@@ -86,10 +88,13 @@ public class Main {
                     String name = sc.next();
                     addressBook.deleteContact(name);
                 }
+                case 5 -> addressBook.saveToFile();
+                case 6 -> addressBook.loadFromFile();
                 default -> {
                     System.out.println("Wrong Input");
                 }
             }
         }
     }
+
 }
