@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 class AddressBook {
     private ArrayList<Contact> AdBook = new ArrayList<>();
 
+    // Add a contact to the Address Book
     public void AddContact(Contact c) {
         boolean exists = AdBook.stream().anyMatch(contact -> contact.equals(c));
         if (exists) {
@@ -11,69 +12,69 @@ class AddressBook {
             return;
         }
         AdBook.add(c);
-        System.out.println("Contact added");
+        System.out.println("Contact added.");
     }
 
+    // Display all contacts
     public void ShowContacts() {
         if (AdBook.isEmpty()) {
             System.out.println("No contacts in this Address Book!");
             return;
         }
-        int ind = 0;
-        for (Contact c : AdBook) {
-            System.out.println(ind + ": " + c);
-            ind++;
+
+        System.out.println("Contacts in Address Book:");
+        for (int i = 0; i < AdBook.size(); i++) {
+            System.out.println(i + ": " + AdBook.get(i));
         }
     }
 
+    // Sort contacts by Name
     public void sortContactsByName() {
         if (AdBook.isEmpty()) {
             System.out.println("No contacts to sort!");
             return;
         }
 
-        // Sort the contact list using streams
-        List<Contact> sortedContacts = AdBook.stream()
+        AdBook.stream()
                 .sorted(Comparator.comparing(contact -> contact.FirstName + " " + contact.LastName))
-                .collect(Collectors.toList());
-
-        // Display sorted contacts
-        System.out.println("Sorted Contacts:");
-        sortedContacts.forEach(System.out::println);
+                .forEach(System.out::println);
     }
 
+    // Create a new contact from user input
     public Contact createContact(Scanner ts) {
-        System.out.println("Enter FirstName:");
+        System.out.println("Enter First Name:");
         String FirstName = ts.next();
-        System.out.println("Enter LastName:");
+        System.out.println("Enter Last Name:");
         String LastName = ts.next();
-        System.out.println("Enter city:");
+        System.out.println("Enter City:");
         String city = ts.next();
-        System.out.println("Enter state:");
+        System.out.println("Enter State:");
         String state = ts.next();
-        System.out.println("Enter email:");
+        System.out.println("Enter Email:");
         String email = ts.next();
-        System.out.println("Enter phone:");
+        System.out.println("Enter Phone:");
         int phone = ts.nextInt();
-        System.out.println("Enter zip:");
+        System.out.println("Enter ZIP:");
         int zip = ts.nextInt();
 
         return new Contact(FirstName, LastName, city, state, email, phone, zip);
     }
 
+    // Search for a contact by name
     public int search(String name) {
         for (int i = 0; i < AdBook.size(); i++) {
-            if (AdBook.get(i).FirstName.equals(name)) {
+            if (AdBook.get(i).FirstName.equalsIgnoreCase(name)) {
                 return i;
             }
         }
         return -1;
     }
 
+    // Delete a contact by name
     public int deleteContact(String name) {
         int ind = search(name);
         if (ind == -1) {
-            System.out.println("There is no such name!");
+            System.out.println("No such name found!");
             return 0;
         }
         AdBook.remove(ind);
@@ -82,10 +83,10 @@ class AddressBook {
         return 1;
     }
 
+    // Edit an existing contact
     public void editContact(int ind, Scanner sc) {
-        System.out.println("Old Contact: ");
-        System.out.println(this.AdBook.get(ind));
-        System.out.println("Enter new Contact: ");
+        System.out.println("Old Contact: " + AdBook.get(ind));
+        System.out.println("Enter new details for the contact:");
         Contact c = createContact(sc);
         boolean exists = AdBook.stream().anyMatch(contact -> contact.equals(c));
         if (exists) {
@@ -96,6 +97,7 @@ class AddressBook {
         System.out.println("Contact updated!");
     }
 
+    // Get all contacts
     public ArrayList<Contact> getContacts() {
         return AdBook;
     }

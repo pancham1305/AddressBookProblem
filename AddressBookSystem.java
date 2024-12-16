@@ -1,16 +1,9 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 class AddressBookSystem {
-    private HashMap<String, AddressBook> addressBooks;
-    private HashMap<String, List<Contact>> cityToPersonsMap;
-    private HashMap<String, List<Contact>> stateToPersonsMap;
-
-    public AddressBookSystem() {
-        this.addressBooks = new HashMap<>();
-        this.cityToPersonsMap = new HashMap<>();
-        this.stateToPersonsMap = new HashMap<>();
-    }
+    private HashMap<String, AddressBook> addressBooks = new HashMap<>();
+    private HashMap<String, List<Contact>> cityToPersonsMap = new HashMap<>();
+    private HashMap<String, List<Contact>> stateToPersonsMap = new HashMap<>();
 
     // Create a new address book
     public void createAddressBook(String name) {
@@ -19,8 +12,7 @@ class AddressBookSystem {
             return;
         }
 
-        AddressBook newAddressBook = new AddressBook();
-        addressBooks.put(name, newAddressBook);
+        addressBooks.put(name, new AddressBook());
         System.out.println("Address Book '" + name + "' created successfully!");
     }
 
@@ -37,9 +29,7 @@ class AddressBookSystem {
         }
 
         System.out.println("Existing Address Books:");
-        for (String name : addressBooks.keySet()) {
-            System.out.println("- " + name);
-        }
+        addressBooks.keySet().forEach(System.out::println);
     }
 
     // Populate city and state maps
@@ -49,12 +39,9 @@ class AddressBookSystem {
 
         addressBooks.values().forEach(addressBook -> {
             addressBook.getContacts().forEach(contact -> {
-                // Update City Map
                 cityToPersonsMap
                         .computeIfAbsent(contact.city, k -> new ArrayList<>())
                         .add(contact);
-
-                // Update State Map
                 stateToPersonsMap
                         .computeIfAbsent(contact.state, k -> new ArrayList<>())
                         .add(contact);
@@ -108,5 +95,4 @@ class AddressBookSystem {
         stateToPersonsMap
                 .forEach((state, contacts) -> System.out.println(state + ": " + contacts.size() + " contact(s)"));
     }
-
 }
