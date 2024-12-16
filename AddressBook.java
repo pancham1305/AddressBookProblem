@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 class AddressBook {
     private ArrayList<Contact> AdBook = new ArrayList<>();
@@ -23,6 +24,22 @@ class AddressBook {
             System.out.println(ind + ": " + c);
             ind++;
         }
+    }
+
+    public void sortContactsByName() {
+        if (AdBook.isEmpty()) {
+            System.out.println("No contacts to sort!");
+            return;
+        }
+
+        // Sort the contact list using streams
+        List<Contact> sortedContacts = AdBook.stream()
+                .sorted(Comparator.comparing(contact -> contact.FirstName + " " + contact.LastName))
+                .collect(Collectors.toList());
+
+        // Display sorted contacts
+        System.out.println("Sorted Contacts:");
+        sortedContacts.forEach(System.out::println);
     }
 
     public Contact createContact(Scanner ts) {
@@ -82,5 +99,4 @@ class AddressBook {
     public ArrayList<Contact> getContacts() {
         return AdBook;
     }
-
 }
