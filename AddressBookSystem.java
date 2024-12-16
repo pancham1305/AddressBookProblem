@@ -3,9 +3,13 @@ import java.util.stream.Collectors;
 
 class AddressBookSystem {
     private HashMap<String, AddressBook> addressBooks;
+    private HashMap<String, List<Contact>> cityToPersonsMap;
+    private HashMap<String, List<Contact>> stateToPersonsMap;
 
     public AddressBookSystem() {
         this.addressBooks = new HashMap<>();
+        this.cityToPersonsMap = new HashMap<>();
+        this.stateToPersonsMap = new HashMap<>();
     }
 
     // Create a new address book
@@ -38,29 +42,47 @@ class AddressBookSystem {
         }
     }
 
-    // Search for persons in a given city across all address books
-    public List<Contact> searchPersonsByCity(String city) {
-        return addressBooks.values().stream()
-                .flatMap(addressBook -> addressBook.getContacts().stream())
-                .filter(contact -> contact.city.equalsIgnoreCase(city))
-                .collect(Collectors.toList());
+    // Populate city and state maps
+    public void populateCityAndStateMaps() {
+        cityToPersonsMap.clear();
+        stateToPersonsMap.clear();
+
+        addressBooks.values().forEach(addressBook -> {
+            addressBook.getContacts().forEach(contact -> {
+                // Update City Map
+                cityToPersonsMap
+                        .computeIfAbsent(contact.city, k -> new ArrayList<>())
+                        .add(contact);
+
+                // Update State Map
+                stateToPersonsMap
+                        .computeIfAbsent(contact.state, k -> new ArrayList<>())
+                        .add(contact);
+            });
+        });
+
+        System.out.println("City and State maps updated!");
     }
 
-    // Search for persons in a given state across all address books
-    public List<Contact> searchPersonsByState(String state) {
-        return addressBooks.values().stream()
-                .flatMap(addressBook -> addressBook.getContacts().stream())
-                .filter(contact -> contact.state.equalsIgnoreCase(state))
-                .collect(Collectors.toList());
-    }
-
-    // Display search results
-    public void displaySearchResults(List<Contact> results) {
-        if (results.isEmpty()) {
-            System.out.println("No matching contacts found!");
+    // View persons by city
+    public void viewPersonsByCity(String city) {
+        List<Contact> contacts = cityToPersonsMap.getOrDefault(city, new ArrayList<>());
+        if (contacts.isEmpty()) {
+            System.out.println("No persons found in city: " + city);
         } else {
-            System.out.println("Search Results:");
-            results.forEach(System.out::println);
+            System.out.println("Persons in city '" + city + "':");
+            contacts.forEach(System.out::println);
+        }
+    }
+
+    // View persons by state
+    public void viewPersonsByState(String state) {
+        List<Contact> contacts = stateToPersonsMap.getOrDefault(state, new ArrayList<>());
+        if (contacts.isEmpty()) {
+            System.out.println("No persons found in state: " + state);
+        } else {
+            System.out.println("Persons in state '" + state + "':");
+            contacts.forEach(System.out::println);
         }
     }
 }
