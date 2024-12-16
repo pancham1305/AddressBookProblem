@@ -10,7 +10,6 @@ class AddressBook {
     private ArrayList<Contact> AdBook = new ArrayList<>();
     private static final String FILE_NAME = "AddressBook.txt";
 
-    // Add a contact to the Address Book
     public void AddContact(Contact c) {
         boolean exists = AdBook.stream().anyMatch(contact -> contact.equals(c));
         if (exists) {
@@ -21,7 +20,6 @@ class AddressBook {
         System.out.println("Contact added.");
     }
 
-    // Display all contacts
     public void ShowContacts() {
         if (AdBook.isEmpty()) {
             System.out.println("No contacts in this Address Book!");
@@ -34,7 +32,6 @@ class AddressBook {
         }
     }
 
-    // Save contacts to a file
     public void saveToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
             for (Contact contact : AdBook) {
@@ -47,7 +44,6 @@ class AddressBook {
         }
     }
 
-    // Load contacts from a file
     public void loadFromFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
             AdBook.clear();
@@ -58,8 +54,7 @@ class AddressBook {
                         .map(field -> field.split(": "))
                         .collect(Collectors.toMap(
                                 split -> split[0].trim(),
-                                split -> split[1].trim()
-                        ));
+                                split -> split[1].trim()));
 
                 Contact contact = new Contact(
                         fieldMap.get("Name").split(" ")[0],
@@ -68,8 +63,7 @@ class AddressBook {
                         fieldMap.get("State"),
                         fieldMap.get("Email"),
                         Integer.parseInt(fieldMap.get("Phone")),
-                        Integer.parseInt(fieldMap.get("Zip"))
-                );
+                        Integer.parseInt(fieldMap.get("Zip")));
                 AdBook.add(contact);
             }
             System.out.println("Contacts loaded from file: " + FILE_NAME);
@@ -78,7 +72,6 @@ class AddressBook {
         }
     }
 
-    // Sort contacts by Name
     public void sortContactsByName() {
         if (AdBook.isEmpty()) {
             System.out.println("No contacts to sort!");
@@ -90,7 +83,6 @@ class AddressBook {
                 .forEach(System.out::println);
     }
 
-    // Create a new contact from user input
     public Contact createContact(Scanner ts) {
         System.out.println("Enter First Name:");
         String FirstName = ts.next();
@@ -110,7 +102,6 @@ class AddressBook {
         return new Contact(FirstName, LastName, city, state, email, phone, zip);
     }
 
-    // Search for a contact by name
     public int search(String name) {
         for (int i = 0; i < AdBook.size(); i++) {
             if (AdBook.get(i).FirstName.equalsIgnoreCase(name)) {
@@ -120,7 +111,6 @@ class AddressBook {
         return -1;
     }
 
-    // Delete a contact by name
     public int deleteContact(String name) {
         int ind = search(name);
         if (ind == -1) {
@@ -133,7 +123,6 @@ class AddressBook {
         return 1;
     }
 
-    // Edit an existing contact
     public void editContact(int ind, Scanner sc) {
         System.out.println("Old Contact: " + AdBook.get(ind));
         System.out.println("Enter new details for the contact:");
@@ -147,7 +136,6 @@ class AddressBook {
         System.out.println("Contact updated!");
     }
 
-    // Get all contacts
     public ArrayList<Contact> getContacts() {
         return AdBook;
     }

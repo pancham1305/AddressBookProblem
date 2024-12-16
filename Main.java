@@ -1,9 +1,8 @@
 import java.util.Scanner;
 
-// Main class remains mostly the same, but now manages multiple address books
 public class Main {
     public static void main(String[] args) {
-        // Create a system to manage multiple address books
+
         AddressBookSystem addressBookSystem = new AddressBookSystem();
 
         Scanner sc = new Scanner(System.in);
