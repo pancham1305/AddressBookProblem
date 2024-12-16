@@ -85,4 +85,28 @@ class AddressBookSystem {
             contacts.forEach(System.out::println);
         }
     }
+
+    // Count and display the number of contacts by city
+    public void countContactsByCity() {
+        if (cityToPersonsMap.isEmpty()) {
+            System.out.println("City map is empty! Populate maps first.");
+            return;
+        }
+
+        System.out.println("Number of Contacts by City:");
+        cityToPersonsMap.forEach((city, contacts) -> System.out.println(city + ": " + contacts.size() + " contact(s)"));
+    }
+
+    // Count and display the number of contacts by state
+    public void countContactsByState() {
+        if (stateToPersonsMap.isEmpty()) {
+            System.out.println("State map is empty! Populate maps first.");
+            return;
+        }
+
+        System.out.println("Number of Contacts by State:");
+        stateToPersonsMap
+                .forEach((state, contacts) -> System.out.println(state + ": " + contacts.size() + " contact(s)"));
+    }
+
 }
