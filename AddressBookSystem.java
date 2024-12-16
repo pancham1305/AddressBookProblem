@@ -1,4 +1,5 @@
-import java.util.HashMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 class AddressBookSystem {
     private HashMap<String, AddressBook> addressBooks;
@@ -34,6 +35,32 @@ class AddressBookSystem {
         System.out.println("Existing Address Books:");
         for (String name : addressBooks.keySet()) {
             System.out.println("- " + name);
+        }
+    }
+
+    // Search for persons in a given city across all address books
+    public List<Contact> searchPersonsByCity(String city) {
+        return addressBooks.values().stream()
+                .flatMap(addressBook -> addressBook.getContacts().stream())
+                .filter(contact -> contact.city.equalsIgnoreCase(city))
+                .collect(Collectors.toList());
+    }
+
+    // Search for persons in a given state across all address books
+    public List<Contact> searchPersonsByState(String state) {
+        return addressBooks.values().stream()
+                .flatMap(addressBook -> addressBook.getContacts().stream())
+                .filter(contact -> contact.state.equalsIgnoreCase(state))
+                .collect(Collectors.toList());
+    }
+
+    // Display search results
+    public void displaySearchResults(List<Contact> results) {
+        if (results.isEmpty()) {
+            System.out.println("No matching contacts found!");
+        } else {
+            System.out.println("Search Results:");
+            results.forEach(System.out::println);
         }
     }
 }

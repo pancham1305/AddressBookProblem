@@ -78,4 +78,9 @@ class AddressBook {
         AdBook.set(ind, c);
         System.out.println("Contact updated!");
     }
+
+    public ArrayList<Contact> getContacts() {
+        return AdBook;
+    }
+
 }
